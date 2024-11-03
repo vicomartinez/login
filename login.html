@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3e5dc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: #fff8f3;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(139, 69, 19, 0.1);
+            width: 320px;
+            transition: all 0.3s ease;
+        }
+        .login-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(139, 69, 19, 0.2);
+        }
+        h2 {
+            color: #8b4513;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        .input-group {
+            margin-bottom: 1rem;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #d2b48c;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #fffaf5;
+        }
+        input:focus {
+            outline: none;
+            border-color: #8b4513;
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+        }
+        .error-message {
+            color: #d2691e;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        button {
+            background-color: #d2691e;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #8b4513;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(139, 69, 19, 0.2);
+        }
+        button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+        .forgot-password {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #8b4513;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .forgot-password:hover {
+            color: #d2691e;
+            text-decoration: underline;
+        }
+        #loginStatus {
+            text-align: center;
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+        .success {
+            color: #2e8b57;
+        }
+        .error {
+            color: #d2691e;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Iniciar Sesión</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Correo electrónico" required>
+                <div class="error-message" id="emailError">Por favor, ingrese un correo electrónico válido.</div>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <div class="error-message" id="passwordError">Por favor, ingrese su contraseña.</div>
+            </div>
+            <button><a href="proyectosergio.html">Ingresar</a></button>
+        </form>
+        <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+        <div id="loginStatus"></div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            let email = document.getElementById('email');
+            let password = document.getElementById('password');
+            let emailError = document.getElementById('emailError');
+            let passwordError = document.getElementById('passwordError');
+            let loginStatus = document.getElementById('loginStatus');
+            let isValid = true;
+
+            // Validar email
+            if (!email.value || !isValidEmail(email.value)) {
+                emailError.style.display = 'block';
+                isValid = false;
+            } else {
+                emailError.style.display = 'none';
+            }
+
+            // Validar contraseña
+            if (!password.value || password.value.length < 6) {
+                passwordError.textContent = 'La contraseña debe tener al menos 6 caracteres.';
+                passwordError.style.display = 'block';
+                isValid = false;
+            } else {
+                passwordError.style.display = 'none';
+            }
+
+            if (isValid) {
+                // Simular una verificación de credenciales
+                if (email.value === 'usuario@ejemplo.com' && password.value === 'contraseña123') {
+                    loginStatus.textContent = 'Inicio de sesión exitoso. Redirigiendo...';
+                    loginStatus.className = 'success';
+                    // Simular redirección después de 2 segundos
+                    setTimeout(() => {
+                        window.location.href = 'pagina-bienvenida.html';
+                    }, 2000);
+                } else {
+                    loginStatus.textContent = 'Credenciales incorrectas. Por favor, intente de nuevo.';
+                    loginStatus.className = 'error';
+                }
+            } else {
+                loginStatus.textContent = 'Por favor, corrija los errores antes de continuar.';
+                loginStatus.className = 'error';
+            }
+        });
+
+        function isValidEmail(email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+    </script>
+</body>
+</html>
